@@ -188,10 +188,13 @@ form.addEventListener("submit", async event => {
   if (!$("lname").value.trim() || !$("name").value.trim()) {
     return msg("Овог, нэрээ оруулна уу.");
   }
-  if (!/^\\d{8}$/.test($("phone").value.trim())) {
-    return msg("Утасны дугаар 8 оронтой байх ёстой.");
+  const phoneInput = $("phone").value.trim();
+  const phoneDigits = phoneInput.replace(/\D/g, "");
+  if (!/^\d{8}$/.test(phoneDigits)) {
+    return msg("Утасны дугаар 8 оронтой байх ёстой. Зөвхөн 8 цифр оруулна уу.");
   }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test($("email").value.trim())) {
+  $("phone").value = phoneDigits;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("email").value.trim())) {
     return msg("И-мэйл хаяг буруу байна.");
   }
   if ($("addr").value.trim().length < 5) {
